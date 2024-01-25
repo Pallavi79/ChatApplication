@@ -18,13 +18,24 @@ io.on('connection',(socket)=>{
         console.log('user disconnected',socket.id);
     });
 
-    socket.on('from_client',()=>{
-        console.log("Received event from client");
-    })
+    // socket.on('from_client',()=>{
+    //     console.log("Received event from client");
+    // })
 
-    setInterval(function f(){
-        socket.emit('from_server');
-    },3000);
+    // setInterval(function f(){
+    //     socket.emit('from_server');
+    // },3000);
+
+    socket.on('new_msg',(data)=>{
+        //broadcast message to all clients
+        //io.emit('msg_rcvd',data);
+
+        //send msg to only the client which is sending the message
+        //socket.emit('msg_rcvd',data);
+
+        //apart from the sender send msg to everyone
+        socket.broadcast.emit('msg_rcvd',data);
+    })
 });
 
 server.listen(3000,()=>{
